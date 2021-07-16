@@ -1,7 +1,7 @@
 ### useReducer
 
-- An alternative to useState. Accepts a reducer of type (state, action) =>
-  newState, and returns the current state paired with a dispatch method.
+- An alternative to useState. Returns the current state paired with a dispatch
+  method.
 - useReducer is usually preferable to useState when you have complex state logic
   that involves multiple sub-values or when the next state depends on the
   previous one.
@@ -70,50 +70,6 @@ everywhere.
 A component calling useContext will always re-render when the context value
 changes. If re-rendering the component is expensive, you can optimize it by
 using memoization.
-
-```javascript
-import * as React from 'react'
-
-const FooContext = React.createContext()
-
-function FooDisplay() {
-  const foo = React.useContext(FooContext)
-  return <div>Foo is: {foo}</div>
-}
-
-ReactDOM.render(
-  <FooContext.Provider value="I am foo">
-    <FooDisplay />
-  </FooContext.Provider>,
-  document.getElementById('root'),
-)
-// renders <div>Foo is: I am foo</div>
-```
-
-After configuring the context, we can extract that logic into a separate file
-"context/count-context" and simply import it whenever we need it.
-
-```javascript
-// contents of file ./context/count-context.js
-const CountContext = React.createContext()
-
-const CountProvider = props => {
-  const [count, setCount] = React.useState(0)
-  return <CountContext.Provider value={[count, setCount]} {...props} />
-}
-
-function useCount() {
-  const context = React.useContext(CountContext)
-  if (!context) {
-    throw new Error(`useCount must be used within the CounterProvider`)
-  }
-  return context
-}
-
-+++++
-
-import {CountProvider, useCount} from "context/count-context"
-```
 
 ### useEffect
 
